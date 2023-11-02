@@ -1,10 +1,32 @@
 const assert = require('assert');
 
 function countBatteriesByHealth(presentCapacities) {
-  return {
-    healthy: 0,
-    exchange: 0,
-    failed: 0
+  let sohArray=[]
+  let rated_capacity=120
+  let healthy=0
+  let exchange=0
+  let failed=0
+
+  //block of code to find the soh percentage from presentCpacity of a battery.
+  presentCapacities.forEach((presentCapacity)=>{
+    let sohPercentage=(100*presentCapacity)/rated_capacity
+    sohArray.push(sohPercentage)
+  })
+
+  // block of code to classify the batteries based on above calculated SoH
+  sohArray.forEach((value)=>{
+    if(value > 80 && value <= 100)
+      healthy+=1
+    if(value > 63 && value <80)
+      exchange+=1
+    if(value < 63 )
+      failed+=1
+  })
+
+  return { // returning the above calculated values as an object to the below called function
+    healthy,
+    exchange,
+    failed
   };
 }
 
